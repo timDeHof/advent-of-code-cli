@@ -1,0 +1,38 @@
+{
+  "name": "@timdehof/advent-of-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "advent-of-code": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js ",
+    "test": "jest"
+  },
+  "keywords": [
+    "adventofcode",
+    "cli",
+    "typescript"
+  ],
+  "author": "Tim DeHof",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "@types/inquirer": "^9.0.7",
+    "@types/jest": "^29.5.10",
+    "@types/node": "^20.10.1",
+    "jest": "^29.7.0",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "figlet": "^1.7.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1"
+  }
+}
