@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 async function listDaysContents() {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const directoryPath = path.resolve(__dirname, "../../src/days");
+  const directoryPath = path.resolve(__dirname, "../days");
   const spinner = ora("Listing days contents").start();
   console.log("\n");
   try {
