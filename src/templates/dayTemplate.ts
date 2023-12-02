@@ -6,31 +6,10 @@
  */
 
 // Import necessary libraries or modules
-
+// import readFile from "./utils.js"
 // Function to solve part 1 of the challenge
-export const solvePart1 = (input: string): number => {
+export const solvePart1 = () => {
+  // const data = await readFile("input.txt");
   // Your solution for part 1 goes here
   return 0;
 };
-
-// Function to solve part 2 of the challenge
-export const solvePart2 = (input: string): number => {
-  // Your solution for part 2 goes here
-  return 0;
-};
-
-// Function to parse the challenge input
-const parseInput = (input: string): string[] => {
-  return input.split("\n");
-};
-
-// Main function to execute the solutions
-const main = () => {
-  const rawInput = ""; // Load your challenge input here (e.g., from a file)
-  const input: any = parseInput(rawInput);
-
-  console.log(`Solution to Day {{DAY_NUMBER}}, Part 1: ${solvePart1(input)}`);
-  console.log(`Solution to Day {{DAY_NUMBER}}, Part 2: ${solvePart2(input)}`);
-};
-
-main();
