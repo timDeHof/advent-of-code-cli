@@ -9,6 +9,8 @@ challenges, making it easier to focus on solving them.
 
 - **Day Initialization**: Automatically creates a new folder and a template file
   for each day's challenge, helping you to quickly start coding your solution.
+- **List Days Contents**: Lists the contents of the current working directory
+  with details like file size and creation date.
 
 ## Getting Started
 
@@ -20,7 +22,7 @@ challenges, making it easier to focus on solving them.
 
 1. Clone the repository:
    ```bash
-   git clone [Your Repository URL]
+   git clone git@github.com:timDeHof/advent-of-code-cli.git
    ```
 2. Navigate to the project directory:
    ```bash

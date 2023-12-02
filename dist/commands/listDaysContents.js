@@ -11,18 +11,15 @@ import fs from "fs";
 import path from "path";
 import ora from "ora";
 import chalk from "chalk";
-import { fileURLToPath } from "url";
 function listDaysContents() {
     return __awaiter(this, void 0, void 0, function* () {
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        const directoryPath = path.resolve(__dirname, "../days");
+        const currentWorkingDir = process.cwd();
         const spinner = ora("Listing days contents").start();
         console.log("\n");
         try {
-            const files = yield fs.promises.readdir(directoryPath);
+            const files = yield fs.promises.readdir(currentWorkingDir);
             const detailedFilesPromises = files.map((file) => __awaiter(this, void 0, void 0, function* () {
-                let fileDetails = yield fs.promises.lstat(path.resolve(directoryPath, file));
+                let fileDetails = yield fs.promises.lstat(path.resolve(currentWorkingDir, file));
                 const { size, birthtime } = fileDetails;
                 return {
                     "filename": file,

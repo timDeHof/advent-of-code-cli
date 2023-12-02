@@ -10,8 +10,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import fs from "fs/promises";
 import path from "path";
 import inquirer from "inquirer";
+import { promisify } from "util";
+import { exec as execCallback } from "child_process";
 import { fileURLToPath } from "url";
-import { exec } from "child_process";
+const exec = promisify(execCallback);
+const createDayFolder = (dayFolderPath) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield fs.mkdir(dayFolderPath, { recursive: true });
+        console.log(`Day ${dayFolderPath} folder created.`);
+    }
+    catch (error) {
+        throw new Error(`Error creating folder: ${error}`);
+    }
+});
+const initializeNodeProject = (dayFolderPath) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield exec(`cd ${dayFolderPath} && npm init -y`);
+        console.log(`Node.js project initialized in ${dayFolderPath}`);
+    }
+    catch (error) {
+        throw new Error(`Error initializing Node.js project: ${error}`);
+    }
+});
+const copyTemplate = (templatePath, destinationPath) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const template = yield fs.readFile(templatePath, "utf8");
+        yield fs.writeFile(destinationPath, template);
+        console.log(`${templatePath} template has been copied into ${destinationPath}`);
+    }
+    catch (error) {
+        throw new Error(`Error copying template: ${error}`);
+    }
+});
 const createDay = () => __awaiter(void 0, void 0, void 0, function* () {
     const { day } = yield inquirer.prompt([
         {
@@ -21,34 +51,22 @@ const createDay = () => __awaiter(void 0, void 0, void 0, function* () {
             validate: (input) => /^\d+$/.test(input) || "Please enter a valid number.",
         },
     ]);
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const dayFolderPath = path.join(__dirname, `../day-${day}`);
+    const currentWorkingDir = process.cwd();
+    const templateDir = path.dirname(fileURLToPath(import.meta.url));
+    const dayFolderPath = path.join(currentWorkingDir, `day-${day}`);
     const parseFilePath = path.join(dayFolderPath, `utils.js`);
-    const parseTemplatePath = path.join(__dirname, "../../src/templates/parseTemplate.ts");
+    const parseTemplatePath = path.resolve(templateDir, "../templates/parseTemplate.js");
     const dayFilePath = path.join(dayFolderPath, "part-01.js");
-    const dayTemplatePath = path.basename(__dirname, "../../src/templates/dayTemplate.ts");
+    const dayTemplatePath = path.resolve(templateDir, "../templates/dayTemplate.js");
     try {
         // Create the folder
-        yield fs.mkdir(dayFolderPath, { recursive: true });
-        const template = yield fs.readFile(parseTemplatePath, "utf8");
-        yield fs.writeFile(parseFilePath, template);
-        const dayTemplate = yield fs.readFile(dayTemplatePath, "utf8");
-        yield fs.writeFile(dayFilePath, dayTemplate);
-        console.log(`Day ${day} folder and file created.`);
+        yield createDayFolder(dayFolderPath);
+        // Read and write the parse template
+        yield copyTemplate(parseTemplatePath, parseFilePath);
+        // Read and write the day template
+        yield copyTemplate(dayTemplatePath, dayFilePath);
         // Initialize Node.js project inside the created folder
-        exec(`cd ${dayFolderPath} && npm init -y`, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error initializing Node.js project: ${error.message}`);
-                return;
-            }
-            if (stderr) {
-                console.error(`Error: ${stderr}`);
-                return;
-            }
-            console.log(`Node.js project initialized in day-${day} folder`);
-            console.log(stdout);
-        });
+        yield initializeNodeProject(dayFolderPath);
     }
     catch (error) {
         // Check if error has a property 'code'
